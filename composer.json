@@ -10,14 +10,14 @@
         }
     ],
     "require": {
-        "php": ">=5.4.0",
+        "php": ">=5.4.0"
     },
     "require-dev":{
         "illuminate/support": "~4"
     },
     "autoload": {
         "psr-4": {
-            "Pingpong\\Shortcode": "src/Pingpong"
+            "Pingpong\\Shortcode\\": "src/Pingpong/Shortcode"
         }
     },
     "minimum-stability": "stable"

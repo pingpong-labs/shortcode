@@ -3,6 +3,7 @@
 use App;
 use Closure;
 use Countable;
+use Illuminate\Support\Str;
 
 class Shortcode implements Countable
 {
@@ -31,7 +32,32 @@ class Shortcode implements Countable
 	public function register($name, $callback)
 	{
 		$this->shortcodes[$name] = $callback;
-	}		
+	}
+
+	/**
+	 * Unregister the specified shortcode by given name.
+	 *
+	 * @param  string  $name
+	 * @return void
+	 */
+	public function unregister($name)
+	{
+		if($this->exists($name))
+		{
+			unset($this->shortcodes[$name]);
+		}
+	}	
+
+	/**
+	 * Unregister all shortcodes.
+	 *
+	 * @param  string  $name
+	 * @return void
+	 */
+	public function destroy()
+	{
+		$this->shortcodes = array();
+	}	
 
 	/**
 	 * Get regex.
@@ -205,12 +231,19 @@ class Shortcode implements Countable
 	{
 		$callback = $this->shortcodes[$name];
 		if(is_string($callback))
-		{		
-			if(class_exists($callback))
+		{					
+			if(str_contains($name, '@'))
 			{
-				return [new $callback, 'render'];
-			} 
-			return $callback;
+				$_callback = Str::parseCallback($callback, 'register');
+				return [new $_callback[0], $_callback[1]];
+			}
+			elseif(class_exists($name))
+			{
+				return [new $name, 'register'];
+			}else
+			{
+				return $callback;
+			}
 		}
 		return $callback;
 	}

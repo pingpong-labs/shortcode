@@ -1,6 +1,8 @@
 {
     "name": "pingpong/shortcode",
-    "description": "",
+    "description": "Laravel 4 - Simple Shortcode LIKE Wordpress",
+    "keywords":["pingpong", "laravel", "shortcode"],
+    "license":"MIT",
     "authors": [
         {
             "name": "PiNGPONG LABS",
@@ -8,12 +10,14 @@
         }
     ],
     "require": {
-        "php": ">=5.3.0",
-        "illuminate/support": "4.1.*"
+        "php": ">=5.4.0",
+    },
+    "require-dev":{
+        "illuminate/support": "~4"
     },
     "autoload": {
-        "psr-0": {
-            "Pingpong\\Shortcode": "src/"
+        "psr-4": {
+            "Pingpong\\Shortcode": "src/Pingpong"
         }
     },
     "minimum-stability": "stable"

@@ -18,7 +18,7 @@ class ShortcodeServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		$this->package('simple/shortcode');
+		$this->package('pingpong/shortcode');
 	}
 
 	/**

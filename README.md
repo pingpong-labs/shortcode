@@ -5,7 +5,7 @@ Laravel 4 - Simple Shortcode
 Open your composer.json file, and add the new required package.
 
 ```
-  "pingpong/shortcode": "dev-master" 
+  "pingpong/shortcode": "1.0.0" 
 ```
 
 Next, open a terminal and run.

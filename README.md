@@ -20,6 +20,11 @@ After the composer updated. Add new service provider in app/config/app.php.
   'Pingpong\Shortcode\ShortcodeServiceProvider'
 ```
 
+Add new Facade alias.
+```php
+'Shortcode'       => 'Pingpong\Shortcode\Facades\Shortcode',
+```
+
 Done.
 
 ### Registering Shorcode

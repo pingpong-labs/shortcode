@@ -2,14 +2,11 @@
 
 use Pingpong\Shortcode\Shortcode;
 
-// test class
-class TestShortcode
+// test function
+function boldTagFunction($attr, $content = null, $name = null)
 {
-	public function register($attr, $content = null, $name = null)
-	{
-		return '<b>'.$content.'</b>';
-	}	
-}
+	return '<b>'.$content.'</b>';
+}	
 
 class ShortcodesTests extends PHPUnit_Framework_TestCase
 {
@@ -65,9 +62,9 @@ class ShortcodesTests extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 */
-	public function testRegisterAndCompileUsingClassName()
+	public function testRegisterAndCompileUsingFunctionName()
 	{
-		$this->shortcode->register('b', ['TestShortcode', 'register']);
+		$this->shortcode->register('b', 'boldTagFunction');
 
 		$boldTag = '<b>Hello</b>';
 		$boldTagFromShortcode = $this->shortcode->compile('[b]Hello[/b]');

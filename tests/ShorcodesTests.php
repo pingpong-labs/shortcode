@@ -6,7 +6,7 @@ use Pingpong\Shortcode\Shortcode;
 function boldTagFunction($attr, $content = null, $name = null)
 {
 	return '<b>'.$content.'</b>';
-}	
+}
 
 class ShortcodesTests extends PHPUnit_Framework_TestCase
 {
@@ -70,5 +70,20 @@ class ShortcodesTests extends PHPUnit_Framework_TestCase
 		$boldTagFromShortcode = $this->shortcode->compile('[b]Hello[/b]');
 
 		$this->assertEquals($boldTag, $boldTagFromShortcode);
+	}
+
+	/**
+	 * Test the strip functionality
+	 *
+	 * @return void
+	 */
+	public function testStrippingShortcodesFromContent()
+	{
+		$this->shortcode->register('b', 'boldTagFunction');
+
+		$content = 'This is just a shortcode [b]example[/b].';
+		$expected = 'This is just a shortcode .';
+
+		$this->assertEquals($expected, $this->shortcode->strip($content));
 	}
 }

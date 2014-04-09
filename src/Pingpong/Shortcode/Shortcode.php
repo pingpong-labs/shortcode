@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 class Shortcode implements Countable
 {
 	/**
-	 * @var array 
+	 * @var array
 	 */
 	protected $shortcodes = array();
 
@@ -46,7 +46,7 @@ class Shortcode implements Countable
 		{
 			unset($this->shortcodes[$name]);
 		}
-	}	
+	}
 
 	/**
 	 * Unregister all shortcodes.
@@ -57,11 +57,11 @@ class Shortcode implements Countable
 	public function destroy()
 	{
 		$this->shortcodes = array();
-	}	
+	}
 
 	/**
 	 * Get regex.
-	 * 
+	 *
 	 * @copyright Wordpress
 	 * @return string
 	 */
@@ -70,34 +70,34 @@ class Shortcode implements Countable
 		$names = array_keys($this->shortcodes);
 		$shortcode = join('|', array_map('preg_quote', $names));
 		return
-			  '\\['                              
-			. '(\\[?)'                          
-			. "($shortcode)"                    
-			. '(?![\\w-])'                      
-			. '('                             
-			.     '[^\\]\\/]*'                   
+			  '\\['
+			. '(\\[?)'
+			. "($shortcode)"
+			. '(?![\\w-])'
+			. '('
+			.     '[^\\]\\/]*'
 			.     '(?:'
-			.         '\\/(?!\\])'               
-			.         '[^\\]\\/]*'               
+			.         '\\/(?!\\])'
+			.         '[^\\]\\/]*'
 			.     ')*?'
 			. ')'
 			. '(?:'
-			.     '(\\/)'                       
-			.     '\\]'                         
+			.     '(\\/)'
+			.     '\\]'
 			. '|'
-			.     '\\]'                          
+			.     '\\]'
 			.     '(?:'
-			.         '('                       
-			.             '[^\\[]*+'             
+			.         '('
+			.             '[^\\[]*+'
 			.             '(?:'
-			.                 '\\[(?!\\/\\2\\])' 
-			.                 '[^\\[]*+'         
+			.                 '\\[(?!\\/\\2\\])'
+			.                 '[^\\[]*+'
 			.             ')*+'
 			.         ')'
-			.         '\\[\\/\\2\\]'            
+			.         '\\[\\/\\2\\]'
 			.     ')?'
 			. ')'
-			. '(\\]?)';                         
+			. '(\\]?)';
 	}
 
 	/**
@@ -130,6 +130,29 @@ class Shortcode implements Countable
 	}
 
 	/**
+	 * Strip any shortcodes
+	 *
+	 * @param string $content
+	 * @return string
+	 */
+	public function strip($content)
+	{
+		if (empty($this->shortcodes)) return $content;
+
+		$pattern = $this->getRegex();
+
+		return preg_replace_callback("/$pattern/s", function($m)
+		{
+			if ($m[1] == '[' && $m[6] == ']')
+			{
+				return substr($m[0], 1, -1);
+			}
+
+			return $m[1] . $m[6];
+		}, $content);
+	}
+
+	/**
 	 * Get count from all shortcodes.
 	 *
 	 * @return integer
@@ -140,7 +163,7 @@ class Shortcode implements Countable
 	}
 
 	/**
-	 * Return true is the given name exist in shortcodes array. 
+	 * Return true is the given name exist in shortcodes array.
 	 *
 	 * @param  string  $name
 	 * @return boolean
@@ -151,7 +174,7 @@ class Shortcode implements Countable
 	}
 
 	/**
-	 * Return true is the given content contain the given name shortcode. 
+	 * Return true is the given content contain the given name shortcode.
 	 *
 	 * @param  string  $content
 	 * @param  string  $name
@@ -173,13 +196,13 @@ class Shortcode implements Countable
 	}
 
 	/**
-	 * Compile the gived content. 
+	 * Compile the gived content.
 	 *
 	 * @param  string  $content
 	 * @return void
 	 */
 	public function compile($content)
-	{		
+	{
 		if( ! $this->count())
 		{
 			return $content;
@@ -201,12 +224,12 @@ class Shortcode implements Countable
 		$content 	= array_get($matches, 5);
 		$callback 	= $this->getCallback($name);
 		$params		= $this->getParameter($matches);
-		$params 	= [$params, $content, $name];	
+		$params 	= [$params, $content, $name];
 		return call_user_func_array($callback, $params);
 	}
 
 	/**
-	 * Get parameters. 
+	 * Get parameters.
 	 *
 	 * @param  array $matches
 	 * @return array
@@ -231,7 +254,7 @@ class Shortcode implements Countable
 	{
 		$callback = $this->shortcodes[$name];
 		if(is_string($callback))
-		{					
+		{
 			if(str_contains($name, '@'))
 			{
 				$_callback = Str::parseCallback($callback, 'register');

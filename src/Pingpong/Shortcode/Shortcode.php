@@ -1,7 +1,5 @@
 <?php namespace Pingpong\Shortcode;
 
-use App;
-use Closure;
 use Countable;
 use Illuminate\Support\Str;
 
@@ -51,12 +49,12 @@ class Shortcode implements Countable
 	/**
 	 * Unregister all shortcodes.
 	 *
-	 * @param  string  $name
-	 * @return void
+     * @return self
 	 */
 	public function destroy()
 	{
 		$this->shortcodes = array();
+        return $this;
 	}
 
 	/**
@@ -255,14 +253,14 @@ class Shortcode implements Countable
 		$callback = $this->shortcodes[$name];
 		if(is_string($callback))
 		{
-			if(str_contains($name, '@'))
+			if(Str::contains($callback, '@'))
 			{
 				$_callback = Str::parseCallback($callback, 'register');
 				return [new $_callback[0], $_callback[1]];
 			}
-			elseif(class_exists($name))
+			elseif(class_exists($callback))
 			{
-				return [new $name, 'register'];
+				return [new $callback, 'register'];
 			}else
 			{
 				return $callback;

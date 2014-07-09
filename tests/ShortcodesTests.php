@@ -2,6 +2,19 @@
 
 use Pingpong\Shortcode\Shortcode;
 
+class HTMLShortcode
+{
+    function div($attr, $content = null, $name = null)
+    {
+        return "<div>{$content}</div>";
+    }
+
+    function img($attr, $content = null, $name = null)
+    {
+        return '<img src="#">';
+    }
+}
+
 // test function
 function boldTagFunction($attr, $content = null, $name = null)
 {
@@ -10,12 +23,14 @@ function boldTagFunction($attr, $content = null, $name = null)
 
 class ShortcodesTests extends PHPUnit_Framework_TestCase
 {
+    protected $shortcode;
+
 	/**
 	 * Set up the tests bench
 	 *
 	 * @return void
 	 */
-    protected function setUp()
+    function setUp()
     {
     	$this->shortcode = new Shortcode;
     }
@@ -25,7 +40,7 @@ class ShortcodesTests extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 */
-    public function registerLinkTagShortcode()
+    protected function registerLinkTagShortcode()
     {
 		$this->shortcode->register("a", function($attr, $content = null, $name = null)
 		{
@@ -47,6 +62,7 @@ class ShortcodesTests extends PHPUnit_Framework_TestCase
 		// test variable
 		$LinkTag = '<a href="#">Click Me!</a>';
 		$TestTag = $this->shortcode->compile("[a]Click Me![/a]");
+
 		// first asserting
 		$this->assertEquals($LinkTag, $TestTag);
 
@@ -86,4 +102,20 @@ class ShortcodesTests extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals($expected, $this->shortcode->strip($content));
 	}
+
+    function testRegisterShortcodeUsingClasses()
+    {
+        $shortcode = new Shortcode();
+
+        $shortcode->register('div', 'HTMLShortcode@div');
+
+        $shortcode->register('img', 'HTMLShortcode@img');
+
+        $exceptedDiv = '<div>Hello</div>';
+        $exceptedImg = '<img src="#">';
+
+        $this->assertEquals($exceptedDiv, $shortcode->compile('[div]Hello[/div]'));
+
+        $this->assertEquals($exceptedImg, $shortcode->compile('[img src="#"]'));
+    }
 }

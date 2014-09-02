@@ -134,4 +134,5 @@ Shortcode::destroy();
 ### License
 
 This package is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
-This package also adopted a system of wordpress shortcodes. Please see or read [the license](http://wordpress.org/about/license/) of wordpressnya also [here](http://codex.wordpress.org/License).
+
+This package also adopted a system of wordpress shortcodes. Please see or read [the license](http://wordpress.org/about/license/) of wordpress also [here](http://codex.wordpress.org/License).

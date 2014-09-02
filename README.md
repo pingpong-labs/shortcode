@@ -119,6 +119,18 @@ $text = '
 echo Shortcode::compile($text);
 ```
 
+### Unregister The Specified Shortcode
+
+```php
+Shortcode::unregister('img');
+```
+
+### Destroy All Shortcodes
+
+```php
+Shortcode::destroy();
+```
+
 ### License
 
 This package is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)

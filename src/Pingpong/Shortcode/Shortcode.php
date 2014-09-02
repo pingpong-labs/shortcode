@@ -5,15 +5,17 @@ use Illuminate\Support\Str;
 
 class Shortcode implements Countable
 {
-	/**
+    /**
+     * All registered shortcodes.
+     *
 	 * @var array
 	 */
-	protected $shortcodes = array();
+	protected $shortcodes = []; 
 
 	/**
 	 * Get all shortcodes.
 	 *
-	 * @return void
+	 * @return array
 	 */
 	public function all()
 	{
@@ -53,7 +55,8 @@ class Shortcode implements Countable
 	 */
 	public function destroy()
 	{
-		$this->shortcodes = array();
+		$this->shortcodes = [];
+        
         return $this;
 	}
 
@@ -66,8 +69,10 @@ class Shortcode implements Countable
 	protected function getRegex()
 	{
 		$names = array_keys($this->shortcodes);
-		$shortcode = join('|', array_map('preg_quote', $names));
-		return
+        
+        $shortcode = join('|', array_map('preg_quote', $names));
+        
+        return
 			  '\\['
 			. '(\\[?)'
 			. "($shortcode)"
@@ -105,11 +110,16 @@ class Shortcode implements Countable
 	 */
 	protected function parseAttr($text)
 	{
-		$atts = array();
+        $atts = [];
+
 		$pattern = '/(\w+)\s*=\s*"([^"]*)"(?:\s|$)|(\w+)\s*=\s*\'([^\']*)\'(?:\s|$)|(\w+)\s*=\s*([^\s\'"]+)(?:\s|$)|"([^"]*)"(?:\s|$)|(\S+)(?:\s|$)/';
-		$text = preg_replace("/[\x{00a0}\x{200b}]+/u", " ", $text);
-		if ( preg_match_all($pattern, $text, $match, PREG_SET_ORDER) ) {
-			foreach ($match as $m) {
+        
+        $text = preg_replace("/[\x{00a0}\x{200b}]+/u", " ", $text);
+        
+        if ( preg_match_all($pattern, $text, $match, PREG_SET_ORDER) )
+        {
+            foreach ($match as $m)
+            {
 				if (!empty($m[1]))
 					$atts[strtolower($m[1])] = stripcslashes($m[2]);
 				elseif (!empty($m[3]))
@@ -121,16 +131,19 @@ class Shortcode implements Countable
 				elseif (isset($m[8]))
 					$atts[] = stripcslashes($m[8]);
 			}
-		} else {
+        }
+        else
+        {
 			$atts = ltrim($text);
-		}
+        }
+
 		return $atts;
 	}
 
 	/**
-	 * Strip any shortcodes
+	 * Strip any shortcodes.
 	 *
-	 * @param string $content
+	 * @param  string $content
 	 * @return string
 	 */
 	public function strip($content)
@@ -139,7 +152,7 @@ class Shortcode implements Countable
 
 		$pattern = $this->getRegex();
 
-		return preg_replace_callback("/$pattern/s", function($m)
+		return preg_replace_callback("/{$pattern}/s", function($m)
 		{
 			if ($m[1] == '[' && $m[6] == ']')
 			{
@@ -147,7 +160,7 @@ class Shortcode implements Countable
 			}
 
 			return $m[1] . $m[6];
-		}, $content);
+        }, $content);
 	}
 
 	/**
@@ -180,16 +193,20 @@ class Shortcode implements Countable
 	 */
 	public function contains($content, $name)
 	{
-		if ( $this->exists( $name ) ) {
+        if ($this->exists($name))
+        {
 			preg_match_all( '/' . $this->getRegex() . '/s', $content, $matches, PREG_SET_ORDER );
-			if ( empty( $matches ) )
+            
+            if (empty($matches))
 				return false;
 
-			foreach ( $matches as $shortcode ) {
-				if ( $name === $shortcode[2] )
+            foreach ($matches as $shortcode)
+            {
+				if ($name === $shortcode[2])
 					return true;
 			}
-		}
+        }
+
 		return false;
 	}
 
@@ -201,13 +218,11 @@ class Shortcode implements Countable
 	 */
 	public function compile($content)
 	{
-		if( ! $this->count())
-		{
-			return $content;
-		}
-		$pattern = $this->getRegex();
+		if( ! $this->count()) return $content;
+        
+        $pattern = $this->getRegex();
 
-		return preg_replace_callback("/$pattern/s", [&$this,'render'], $content);
+		return preg_replace_callback("/{$pattern}/s", [&$this, 'render'], $content);
 	}
 
 	/**
@@ -219,11 +234,16 @@ class Shortcode implements Countable
 	public function render($matches)
 	{
 		$name 		= array_get($matches, 2);
-		$content 	= array_get($matches, 5);
-		$callback 	= $this->getCallback($name);
-		$params		= $this->getParameter($matches);
-		$params 	= [$params, $content, $name];
-		return call_user_func_array($callback, $params);
+        
+        $content 	= array_get($matches, 5);
+        
+        $callback 	= $this->getCallback($name);
+        
+        $params		= $this->getParameter($matches);
+        
+        $params 	= [$params, $content, $name];
+        
+        return call_user_func_array($callback, $params);
 	}
 
 	/**
@@ -235,10 +255,12 @@ class Shortcode implements Countable
 	protected function getParameter($matches)
 	{
 		$params = $this->parseAttr($matches[3]);
-		if( ! is_array($params))
+        
+        if( ! is_array($params))
 		{
 			$params = [$params];
-		}
+        }
+
 		return $params;
 	}
 
@@ -251,21 +273,25 @@ class Shortcode implements Countable
 	protected function getCallback($name)
 	{
 		$callback = $this->shortcodes[$name];
-		if(is_string($callback))
+        
+        if(is_string($callback))
 		{
 			if(Str::contains($callback, '@'))
 			{
 				$_callback = Str::parseCallback($callback, 'register');
-				return [new $_callback[0], $_callback[1]];
+                
+                return [new $_callback[0], $_callback[1]];
 			}
 			elseif(class_exists($callback))
 			{
 				return [new $callback, 'register'];
-			}else
+            }
+            else
 			{
 				return $callback;
 			}
-		}
+        }
+
 		return $callback;
 	}
 

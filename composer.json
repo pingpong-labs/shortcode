@@ -2,7 +2,7 @@
     "name": "pingpong/shortcode",
     "description": "Laravel 4 - Simple shortcode based on wordpress shortcode",
     "keywords": ["pingpong", "laravel", "shortcode"],
-    "license": "MIT",
+    "license": "BSD-3-Clause",
     "authors": [
         {
             "name": "PiNGPONG LABS",

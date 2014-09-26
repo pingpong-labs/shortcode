@@ -133,6 +133,6 @@ Shortcode::destroy();
 
 ### License
 
-This package is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+This package is open-sourced software licensed under [The BSD 3-Clause License](http://opensource.org/licenses/BSD-3-Clause)
 
 This package also adopted a system of wordpress shortcodes. Please see or read [the license](http://wordpress.org/about/license/) of wordpress also [here](http://codex.wordpress.org/License).

@@ -136,3 +136,7 @@ Shortcode::destroy();
 This package is open-sourced software licensed under [The BSD 3-Clause License](http://opensource.org/licenses/BSD-3-Clause)
 
 This package also adopted a system of wordpress shortcodes. Please see or read [the license](http://wordpress.org/about/license/) of wordpress also [here](http://codex.wordpress.org/License).
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/pingpong-labs/shortcode/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+

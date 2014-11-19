@@ -2,15 +2,56 @@
 
 use Countable;
 use Illuminate\Support\Str;
+use Illuminate\Container\Container;
 
-class Shortcode implements Countable
-{
+class Shortcode implements Countable {
+
     /**
      * All registered shortcodes.
      *
 	 * @var array
 	 */
 	protected $shortcodes = []; 
+
+	/**
+	 * The laravel container instance.
+	 * 
+	 * @var \Illuminate\Container\Container $container
+	 */
+	protected $container;
+
+	/**
+	 * The constructor.
+	 * 
+	 * @param \Illuminate\Container\Container $container
+	 */
+	public function __construct(Container $container = null)
+	{
+		$this->container = $container ?: new Container;
+	}
+
+	/**
+	 * Get the container instance.
+	 * 
+	 * @return \Illuminate\Container\Container
+	 */
+	public function getContainer()
+	{
+		return $this->container;
+	}
+
+	/**
+	 * Set the laravel container instance.
+	 * 
+	 * @param \Illuminate\Container\Container $container
+	 * @return self
+	 */
+	public function setContainer(Container $container)
+	{
+		$this->container = $container;
+
+		return $this;
+	}
 
 	/**
 	 * Get all shortcodes.
@@ -278,13 +319,17 @@ class Shortcode implements Countable
 		{
 			if(Str::contains($callback, '@'))
 			{
-				$_callback = Str::parseCallback($callback, 'register');
+				$parsedCallback = Str::parseCallback($callback, 'register');
+				
+				$instance = $this->container->make($parsedCallback[0]);
                 
-                return [new $_callback[0], $_callback[1]];
+                return [$instance, $parsedCallback[1]];
 			}
 			elseif(class_exists($callback))
 			{
-				return [new $callback, 'register'];
+				$instance = $this->container->make($callback);
+
+				return [$instance, 'register'];
             }
             else
 			{

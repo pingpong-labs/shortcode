@@ -1,8 +1,9 @@
-Laravel 4 - Simple Shortcode
+Laravel Shortcode
 =========
 
 [![Build Status](https://travis-ci.org/pingpong-labs/shortcode.svg?branch=master)](https://travis-ci.org/pingpong-labs/shortcode)
 [![Latest Stable Version](https://poser.pugx.org/pingpong/shortcode/v/stable.png)](https://packagist.org/packages/pingpong/shortcode) [![Total Downloads](https://poser.pugx.org/pingpong/shortcode/downloads.png)](https://packagist.org/packages/pingpong/shortcode) [![Latest Unstable Version](https://poser.pugx.org/pingpong/shortcode/v/unstable.png)](https://packagist.org/packages/pingpong/shortcode) [![License](https://poser.pugx.org/pingpong/shortcode/license.png)](https://packagist.org/packages/pingpong/shortcode)
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/pingpong-labs/shortcode/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
 ### Server Requirements
 
@@ -136,7 +137,3 @@ Shortcode::destroy();
 This package is open-sourced software licensed under [The BSD 3-Clause License](http://opensource.org/licenses/BSD-3-Clause)
 
 This package also adopted a system of wordpress shortcodes. Please see or read [the license](http://wordpress.org/about/license/) of wordpress also [here](http://codex.wordpress.org/License).
-
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/pingpong-labs/shortcode/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-

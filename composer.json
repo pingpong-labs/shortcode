@@ -1,27 +1,32 @@
 {
-    "name": "pingpong/shortcode",
-    "description": "Laravel - Simple shortcode based on wordpress shortcode",
-    "keywords": ["pingpong", "laravel", "shortcode", "wordpress"],
-    "license": "BSD-3-Clause",
-    "authors": [
-        {
-            "name": "Pingpong Labs",
-            "email": "pingpong.labs@gmail.com"
-        }
-    ],
-    "require": {
-        "php": ">=5.4.0",
-        "illuminate/container": "~4|~5",
-        "illuminate/support": "~4|~5"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "4.1.*",
-        "mockery/mockery": "0.9.*"
-    },
-    "autoload": {
-        "psr-0": {
-            "Pingpong\\Shortcode\\": "src/"
-        }
-    },
-    "minimum-stability": "stable"
+  "name": "pingpong/shortcode",
+  "description": "Laravel - Simple shortcode based on wordpress shortcode",
+  "keywords": [
+    "pingpong",
+    "laravel",
+    "shortcode",
+    "wordpress"
+  ],
+  "license": "BSD-3-Clause",
+  "authors": [
+    {
+      "name": "Pingpong Labs",
+      "email": "pingpong.labs@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.4.0",
+    "illuminate/container": "~4|~5",
+    "illuminate/support": "~4|~5"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "4.1.*",
+    "mockery/mockery": "0.9.*"
+  },
+  "autoload": {
+    "psr-0": {
+      "Pingpong\\Shortcode\\": "src/"
+    }
+  },
+  "minimum-stability": "stable"
 }

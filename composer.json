@@ -24,8 +24,8 @@
     "mockery/mockery": "~0.9"
   },
   "autoload": {
-    "psr-0": {
-      "Pingpong\\Shortcode\\": "src/"
+    "psr-4": {
+      "Pingpong\\Shortcode\\": ""
     }
   },
   "minimum-stability": "stable"

@@ -1,4 +1,4 @@
-<?php namespace Pingpong\Shortcode\Facades;
+<?php namespace Pingpong\Shortcode;
 
 use Illuminate\Support\Facades\Facade;
 

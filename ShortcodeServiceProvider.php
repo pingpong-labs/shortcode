@@ -12,16 +12,6 @@ class ShortcodeServiceProvider extends ServiceProvider {
     protected $defer = false;
 
     /**
-     * Bootstrap the application events.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        $this->package('pingpong/shortcode');
-    }
-
-    /**
      * Register the service provider.
      *
      * @return void

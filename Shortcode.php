@@ -287,6 +287,17 @@ class Shortcode implements Countable {
     }
 
     /**
+     * Parse the given content.
+     * 
+     * @param  string $content
+     * @return void
+     */
+    public function parse($content)
+    {
+        return $this->compile($content);
+    }
+
+    /**
      * Render the current calld shortcode.
      *
      * @param  array $matches

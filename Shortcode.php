@@ -4,7 +4,8 @@ use Countable;
 use Illuminate\Container\Container;
 use Illuminate\Support\Str;
 
-class Shortcode implements Countable {
+class Shortcode implements Countable
+{
 
     /**
      * All registered shortcodes.
@@ -83,8 +84,7 @@ class Shortcode implements Countable {
      */
     public function unregister($name)
     {
-        if ($this->exists($name))
-        {
+        if ($this->exists($name)) {
             unset($this->shortcodes[$name]);
         }
     }
@@ -157,34 +157,21 @@ class Shortcode implements Countable {
 
         $text = preg_replace("/[\x{00a0}\x{200b}]+/u", " ", $text);
 
-        if (preg_match_all($pattern, $text, $match, PREG_SET_ORDER))
-        {
-            foreach ($match as $m)
-            {
-                if ( ! empty($m[1]))
-                {
+        if (preg_match_all($pattern, $text, $match, PREG_SET_ORDER)) {
+            foreach ($match as $m) {
+                if (! empty($m[1])) {
                     $atts[strtolower($m[1])] = stripcslashes($m[2]);
-                }
-                elseif ( ! empty($m[3]))
-                {
+                } elseif (! empty($m[3])) {
                     $atts[strtolower($m[3])] = stripcslashes($m[4]);
-                }
-                elseif ( ! empty($m[5]))
-                {
+                } elseif (! empty($m[5])) {
                     $atts[strtolower($m[5])] = stripcslashes($m[6]);
-                }
-                elseif (isset($m[7]) and strlen($m[7]))
-                {
+                } elseif (isset($m[7]) and strlen($m[7])) {
                     $atts[] = stripcslashes($m[7]);
-                }
-                elseif (isset($m[8]))
-                {
+                } elseif (isset($m[8])) {
                     $atts[] = stripcslashes($m[8]);
                 }
             }
-        }
-        else
-        {
+        } else {
             $atts = ltrim($text);
         }
 
@@ -199,17 +186,14 @@ class Shortcode implements Countable {
      */
     public function strip($content)
     {
-        if (empty($this->shortcodes))
-        {
+        if (empty($this->shortcodes)) {
             return $content;
         }
 
         $pattern = $this->getRegex();
 
-        return preg_replace_callback("/{$pattern}/s", function ($m)
-        {
-            if ($m[1] == '[' && $m[6] == ']')
-            {
+        return preg_replace_callback("/{$pattern}/s", function ($m) {
+            if ($m[1] == '[' && $m[6] == ']') {
                 return substr($m[0], 1, -1);
             }
 
@@ -247,19 +231,15 @@ class Shortcode implements Countable {
      */
     public function contains($content, $name)
     {
-        if ($this->exists($name))
-        {
+        if ($this->exists($name)) {
             preg_match_all('/' . $this->getRegex() . '/s', $content, $matches, PREG_SET_ORDER);
 
-            if (empty($matches))
-            {
+            if (empty($matches)) {
                 return false;
             }
 
-            foreach ($matches as $shortcode)
-            {
-                if ($name === $shortcode[2])
-                {
+            foreach ($matches as $shortcode) {
+                if ($name === $shortcode[2]) {
                     return true;
                 }
             }
@@ -276,8 +256,7 @@ class Shortcode implements Countable {
      */
     public function compile($content)
     {
-        if ( ! $this->count())
-        {
+        if (! $this->count()) {
             return $content;
         }
 
@@ -288,7 +267,7 @@ class Shortcode implements Countable {
 
     /**
      * Parse the given content.
-     * 
+     *
      * @param  string $content
      * @return void
      */
@@ -328,8 +307,7 @@ class Shortcode implements Countable {
     {
         $params = $this->parseAttr($matches[3]);
 
-        if ( ! is_array($params))
-        {
+        if (! is_array($params)) {
             $params = [$params];
         }
 
@@ -346,29 +324,22 @@ class Shortcode implements Countable {
     {
         $callback = $this->shortcodes[$name];
 
-        if (is_string($callback))
-        {
-            if (Str::contains($callback, '@'))
-            {
+        if (is_string($callback)) {
+            if (Str::contains($callback, '@')) {
                 $parsedCallback = Str::parseCallback($callback, 'register');
 
                 $instance = $this->container->make($parsedCallback[0]);
 
                 return [$instance, $parsedCallback[1]];
-            }
-            elseif (class_exists($callback))
-            {
+            } elseif (class_exists($callback)) {
                 $instance = $this->container->make($callback);
 
                 return [$instance, 'register'];
-            }
-            else
-            {
+            } else {
                 return $callback;
             }
         }
 
         return $callback;
     }
-
 }

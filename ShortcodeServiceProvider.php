@@ -2,7 +2,8 @@
 
 use Illuminate\Support\ServiceProvider;
 
-class ShortcodeServiceProvider extends ServiceProvider {
+class ShortcodeServiceProvider extends ServiceProvider
+{
 
     /**
      * Indicates if loading of the provider is deferred.
@@ -18,8 +19,7 @@ class ShortcodeServiceProvider extends ServiceProvider {
      */
     public function register()
     {
-        $this->app['shortcode'] = $this->app->share(function ($app)
-        {
+        $this->app['shortcode'] = $this->app->share(function ($app) {
             return new Shortcode;
         });
     }
@@ -33,5 +33,4 @@ class ShortcodeServiceProvider extends ServiceProvider {
     {
         return array('shortcode');
     }
-
 }

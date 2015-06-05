@@ -1,10 +1,11 @@
-<?php namespace Pingpong\Shortcode;
+<?php
+
+namespace Pingpong\Shortcode;
 
 use Illuminate\Support\ServiceProvider;
 
 class ShortcodeServiceProvider extends ServiceProvider
 {
-
     /**
      * Indicates if loading of the provider is deferred.
      *
@@ -14,13 +15,11 @@ class ShortcodeServiceProvider extends ServiceProvider
 
     /**
      * Register the service provider.
-     *
-     * @return void
      */
     public function register()
     {
         $this->app['shortcode'] = $this->app->share(function ($app) {
-            return new Shortcode;
+            return new Shortcode();
         });
     }
 

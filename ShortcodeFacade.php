@@ -1,10 +1,11 @@
-<?php namespace Pingpong\Shortcode;
+<?php
+
+namespace Pingpong\Shortcode;
 
 use Illuminate\Support\Facades\Facade;
 
 class ShortcodeFacade extends Facade
 {
-
     /**
      * Get the registered name of the component.
      *
